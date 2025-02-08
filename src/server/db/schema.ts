@@ -1,30 +1,41 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
+import {
+  sqliteTable,
+  text,
+  integer,
+  primaryKey,
+} from "drizzle-orm/sqlite-core";
 
-import { sql } from "drizzle-orm";
-import { index, int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
+// Rooms Table
+export const rooms = sqliteTable("rooms", {
+  id: text("id").primaryKey(), // Turso uses text for UUIDs
+  name: text("name").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).defaultNow(),
+  status: text("status").default("waiting"),
+});
 
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
-export const createTable = sqliteTableCreator((name) => `one-memo-piece_${name}`);
-
-export const posts = createTable(
-  "post",
+// Room Users Table
+export const roomUsers = sqliteTable(
+  "room_users",
   {
-    id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-    name: text("name", { length: 256 }),
-    createdAt: int("created_at", { mode: "timestamp" })
-      .default(sql`(unixepoch())`)
-      .notNull(),
-    updatedAt: int("updated_at", { mode: "timestamp" }).$onUpdate(
-      () => new Date()
-    ),
+    roomId: text("room_id")
+      .notNull()
+      .references(() => rooms.id, { onDelete: "cascade" }),
+    userId: text("user_id").notNull(), // Clerk's userId
+    matchedCards: integer("matched_cards").default(0),
+    joinedAt: integer("joined_at", { mode: "timestamp" }).defaultNow(),
   },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-  })
+  (table) => ({
+    pk: primaryKey({ columns: [table.roomId, table.userId] }),
+  }),
 );
+
+// Cards Table
+export const cards = sqliteTable("cards", {
+  id: text("id").primaryKey(), // Turso uses text for UUIDs
+  roomId: text("room_id")
+    .notNull()
+    .references(() => rooms.id, { onDelete: "cascade" }),
+  imageUrl: text("image_url").notNull(),
+  isMatched: integer("is_matched", { mode: "boolean" }).default(false),
+  flippedBy: text("flipped_by"), // Clerk's userId
+});
