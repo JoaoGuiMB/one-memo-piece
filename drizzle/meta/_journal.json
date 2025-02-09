@@ -8,6 +8,13 @@
       "when": 1739042600419,
       "tag": "0000_little_whizzer",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1739110092093,
+      "tag": "0001_strong_carlie_cooper",
+      "breakpoints": true
     }
   ]
 }
