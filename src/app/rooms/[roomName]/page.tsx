@@ -8,15 +8,12 @@ import Image from "next/image";
 import { PlayerList } from "./components/player-list";
 
 // Mock data for players
-const players = [
-  { id: "1", name: "Luffy", matchedCards: 5 },
-  { id: "2", name: "Zoro", matchedCards: 3 },
-  { id: "3", name: "Nami", matchedCards: 2 },
-];
 
-export default function RoomPage({ params }: { params: { roomName: string } }) {
+export default function RoomPage(props: {
+  params: Promise<{ roomName: string }>;
+}) {
   const cards = createGameCards();
-
+  console.log(props.params);
   return (
     <div className="flex min-h-screen overflow-y-auto bg-[#58acf4]">
       {/* Players List */}
