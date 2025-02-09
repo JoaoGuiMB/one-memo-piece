@@ -21,5 +21,5 @@ export const joinRoomAction = async (formData: FormData) => {
   }
 
   await db.insert(roomUsers).values({ roomId, userId: user.id });
-  redirect(`/room/${encodeURIComponent(name)}`);
+  redirect(`/rooms/${name}`);
 };

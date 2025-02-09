@@ -1,6 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 
-const baseAssetsPath = "/public/gameAssets";
+const baseAssetsPath = "/gameAssets";
 
 const CARD_IMAGES = [
   `${baseAssetsPath}/luffy.png`,
@@ -11,10 +11,10 @@ const CARD_IMAGES = [
   `${baseAssetsPath}/chopper.png`,
   `${baseAssetsPath}/robin.png`,
   `${baseAssetsPath}/franky.png`,
-  `${baseAssetsPath}/brook.png`,
+  `${baseAssetsPath}/brook.jpg`,
   `${baseAssetsPath}/jinbei.png`,
   `${baseAssetsPath}/ace.png`,
-  `${baseAssetsPath}/kaido.png`,
+  `${baseAssetsPath}/kaido.jpg`,
   `${baseAssetsPath}/marco.png`,
   `${baseAssetsPath}/whitebeard.png`,
   `${baseAssetsPath}/blackbeard.png`,
