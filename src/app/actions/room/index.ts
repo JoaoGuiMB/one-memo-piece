@@ -13,7 +13,7 @@ export const joinRoomAction = async (formData: FormData) => {
   const foundRoom = await findRoomByName(name);
   let roomId = "";
   if (!foundRoom[0]?.id) {
-    const room = await createRoom({ name });
+    const room = await createRoom({ name, ownerId: user.id });
     if (!room[0]) return;
     roomId = room[0]?.id;
   } else {

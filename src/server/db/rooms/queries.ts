@@ -5,6 +5,7 @@ import { rooms } from "~/server/db/schema";
 
 export type CreateRoom = {
   name: string;
+  ownerId: string;
 };
 
 export const findRoomByName = async (name: string) => {
@@ -15,11 +16,11 @@ export const findRoomByName = async (name: string) => {
 };
 
 export const createRoom = async (input: CreateRoom) => {
-  const { name } = input;
+  const { name, ownerId } = input;
   const id = createId();
   const room = await db
     .insert(rooms)
-    .values({ name, id })
+    .values({ name, id, ownerId })
     .returning({ id: rooms.id });
   return room;
 };

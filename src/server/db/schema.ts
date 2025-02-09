@@ -14,6 +14,7 @@ export const rooms = sqliteTable("rooms", {
     sql`(current_timestamp)`,
   ),
   status: text("status").default("waiting"),
+  ownerId: text("owner_id").notNull(), // Clerk's userId
 });
 
 // Room Users Table
