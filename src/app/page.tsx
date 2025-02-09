@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { SignIn } from "@clerk/nextjs";
+import { SignIn, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
@@ -9,6 +9,7 @@ import { joinRoomAction } from "./actions/room";
 export default function LoginPage() {
   const [roomName, setRoomName] = useState("");
   const [error, setError] = useState(""); // State for error message
+  const { isSignedIn } = useUser();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[url('/one-piece-bg.png')] bg-cover bg-center">
@@ -36,27 +37,29 @@ export default function LoginPage() {
             },
           }}
         />
-        <form action={joinRoomAction}>
-          <div className="mb-4">
-            <Input
-              type="text"
-              placeholder="Enter room name"
-              name="roomName"
-              value={roomName}
-              onChange={(e) => {
-                setRoomName(e.target.value);
-                setError(""); // Clear error when user types
-              }}
-              className="w-full"
-            />
-            {/* Display error message if room name is empty */}
-            {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
-          </div>
+        {isSignedIn && (
+          <form action={joinRoomAction}>
+            <div className="mb-4">
+              <Input
+                type="text"
+                placeholder="Enter room name"
+                name="roomName"
+                value={roomName}
+                onChange={(e) => {
+                  setRoomName(e.target.value);
+                  setError(""); // Clear error when user types
+                }}
+                className="w-full"
+              />
+              {/* Display error message if room name is empty */}
+              {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+            </div>
 
-          <Button className="w-full bg-orange-500 hover:bg-orange-600">
-            Join Room
-          </Button>
-        </form>
+            <Button className="w-full bg-orange-500 hover:bg-orange-600">
+              Join Room
+            </Button>
+          </form>
+        )}
       </div>
     </div>
   );
