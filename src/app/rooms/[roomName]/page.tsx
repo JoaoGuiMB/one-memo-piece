@@ -4,8 +4,6 @@ import { Room } from "./Room";
 
 import { redirect } from "next/navigation";
 
-// Mark this component as a Client Component
-
 export default async function RoomPage({
   params,
 }: {
