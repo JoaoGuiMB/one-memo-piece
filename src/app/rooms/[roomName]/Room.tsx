@@ -6,12 +6,15 @@ import {
   RoomProvider,
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
+import Image from "next/image";
 
 function RoomSkeleton() {
   return (
-    <div className="relative flex min-h-screen w-screen flex-col items-center justify-center">
-      <img
+    <div className="relative flex min-h-screen w-screen flex-col items-center justify-center bg-[#58acf4]">
+      <Image
         src={"/straw-hat-logo.png"}
+        width={300}
+        height={300}
         alt="Loading..."
         className="animate-heartbeat mb-40 w-[300px]"
       />
