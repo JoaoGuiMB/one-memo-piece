@@ -1,5 +1,8 @@
+import { auth } from "@clerk/nextjs/server";
 import Game from "./components/game";
 import { Room } from "./Room";
+
+import { redirect } from "next/navigation";
 
 // Mark this component as a Client Component
 
@@ -9,6 +12,11 @@ export default async function RoomPage({
   params: Promise<{ roomName: string }>;
 }) {
   const { roomName } = await params;
+  const { userId } = await auth();
+  if (!userId) {
+    return redirect("/");
+  }
+
   return (
     <Room roomName={roomName}>
       <Game />

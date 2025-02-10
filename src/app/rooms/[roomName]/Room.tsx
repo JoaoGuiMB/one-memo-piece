@@ -27,7 +27,6 @@ export function Room({
   children: ReactNode;
   roomName: string;
 }) {
-  console.log(roomName);
   return (
     <LiveblocksProvider
       publicApiKey={
