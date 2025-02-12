@@ -3,21 +3,22 @@ import { createId } from "@paralleldrive/cuid2";
 const baseAssetsPath = "/gameAssets";
 
 const CARD_IMAGES = [
-  `${baseAssetsPath}/luffy.png`,
-  `${baseAssetsPath}/zoro.png`,
-  `${baseAssetsPath}/nami.png`,
+  `${baseAssetsPath}/luffy.webp`,
+  `${baseAssetsPath}/zoro.webp`,
+  `${baseAssetsPath}/nami2.png`,
   `${baseAssetsPath}/usopp.png`,
-  `${baseAssetsPath}/sanji.png`,
-  `${baseAssetsPath}/chopper.png`,
-  `${baseAssetsPath}/robin.png`,
-  `${baseAssetsPath}/franky.png`,
-  `${baseAssetsPath}/brook.jpg`,
-  `${baseAssetsPath}/jinbei.png`,
+  `${baseAssetsPath}/sanji2.png`,
+  `${baseAssetsPath}/chopper3.webp`,
+  `${baseAssetsPath}/robin2.webp`,
+  `${baseAssetsPath}/franky.webp`,
+  `${baseAssetsPath}/brook.webp`,
+  `${baseAssetsPath}/jimbei.webp`,
   `${baseAssetsPath}/ace.png`,
-  `${baseAssetsPath}/kaido.jpg`,
+  `${baseAssetsPath}/kaido.webp`,
   `${baseAssetsPath}/marco.png`,
   `${baseAssetsPath}/whitebeard.png`,
   `${baseAssetsPath}/blackbeard.png`,
+  `${baseAssetsPath}/shanks.png`,
 ] as const;
 
 type CardDefinition = {
