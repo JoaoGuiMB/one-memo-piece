@@ -10,13 +10,13 @@ import Image from "next/image";
 
 function RoomSkeleton() {
   return (
-    <div className="relative flex min-h-screen w-screen flex-col items-center justify-center bg-[#58acf4]">
+    <div className="relative flex min-h-screen w-screen flex-col items-center justify-center bg-[#2E63A4]">
       <Image
         src={"/straw-hat-logo.png"}
         width={300}
         height={300}
         alt="Loading..."
-        className="animate-heartbeat mb-40 w-[300px]"
+        className="mb-40 w-[300px] animate-heartbeat"
       />
     </div>
   );
