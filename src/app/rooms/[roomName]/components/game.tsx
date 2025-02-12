@@ -8,7 +8,7 @@ export default function Game() {
   const cards = createGameCards();
 
   return (
-    <div className="flex min-h-screen overflow-y-auto bg-[#58acf4]">
+    <div className="flex min-h-screen overflow-y-auto bg-[#2E63A4]">
       {/* Players List */}
       <div className="w-1/6 rounded-lg bg-[#58acf4] p-6 shadow-lg backdrop-blur-sm">
         <h2 className="mb-6 text-2xl font-bold text-gray-800">Players</h2>
