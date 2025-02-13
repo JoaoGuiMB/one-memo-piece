@@ -8,6 +8,10 @@
 
 ## Notes from 10/02/2025 to do on 11/02/2025
 
-- [ ] Add logic of each user has a room
-  - [] If user has a room, should redirect to his room
-  - [] Add button to go to another room
+- [x] Add logic of each user has a room
+  - [x] If user has a room, should redirect to his room
+  - [x] Add button to go to another room
+
+## Notes from 13/02/2025 to do on 14/02/2025
+
+- [] Add logic of flipping cards and matching them
