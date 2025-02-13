@@ -7,6 +7,8 @@ import {
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import Image from "next/image";
+import { LiveList } from "@liveblocks/client";
+import { type GameCard } from "./lib/generateCards";
 
 function RoomSkeleton() {
   return (
@@ -25,9 +27,11 @@ function RoomSkeleton() {
 export function Room({
   children,
   roomName,
+  cards,
 }: {
   children: ReactNode;
   roomName: string;
+  cards: GameCard[];
 }) {
   return (
     <LiveblocksProvider
@@ -35,7 +39,10 @@ export function Room({
         "pk_dev_VkwZvOGsFix97nZijfdJEbYpK0ScdDzoqUsXxwD40-_nwGUOzC7Xic9VS_2mFLbv"
       }
     >
-      <RoomProvider id={roomName}>
+      <RoomProvider
+        id={roomName}
+        initialStorage={{ gameCards: new LiveList(cards) }}
+      >
         <ClientSideSuspense fallback={<RoomSkeleton />}>
           {children}
         </ClientSideSuspense>
