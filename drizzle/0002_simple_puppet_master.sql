@@ -1,0 +1,1 @@
+ALTER TABLE `cards` ALTER COLUMN "is_matched" TO "is_matched" integer NOT NULL;

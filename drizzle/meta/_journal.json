@@ -15,6 +15,13 @@
       "when": 1739110092093,
       "tag": "0001_strong_carlie_cooper",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1739489754498,
+      "tag": "0002_simple_puppet_master",
+      "breakpoints": true
     }
   ]
 }

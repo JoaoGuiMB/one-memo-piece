@@ -1,9 +1,14 @@
 "use server";
 import { currentUser } from "@clerk/nextjs/server";
 import { db } from "~/server/db";
-import { createRoom, findRoomByName } from "~/server/db/rooms/queries";
+import {
+  createRoom,
+  findRoomByName,
+  findRoomByOwner,
+} from "~/server/db/rooms/queries";
 import { roomUsers } from "~/server/db/schema";
 import { redirect } from "next/navigation";
+import { insertGameCards } from "~/server/db/cards/queries";
 
 export const joinRoomAction = async (formData: FormData) => {
   const name = formData.get("roomName") as string;
@@ -22,4 +27,19 @@ export const joinRoomAction = async (formData: FormData) => {
 
   await db.insert(roomUsers).values({ roomId, userId: user.id });
   redirect(`/rooms/${name}`);
+};
+
+export const checkIfUserHasRoom = async () => {
+  const user = await currentUser();
+  if (!user) return;
+
+  const foundRoom = await findRoomByOwner(user.id);
+  if (foundRoom[0]?.id) {
+    redirect(`/rooms/${foundRoom[0]?.name}`);
+  }
+  return false;
+};
+
+export const startGame = async (roomName: string) => {
+  await insertGameCards(roomName);
 };

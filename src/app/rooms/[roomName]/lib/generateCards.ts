@@ -22,23 +22,20 @@ const CARD_IMAGES = [
 ] as const;
 
 type CardDefinition = {
-  pairId: number;
   image: string;
 };
 
 export type GameCard = {
   id: string;
-  pairId: number;
-  image: string;
+  roomId: string;
+  flippedBy: string | null;
+  imageUrl: string;
   isMatched: boolean;
 };
 
-const CARD_DEFINITIONS: Array<CardDefinition> = CARD_IMAGES.map(
-  (image, index) => ({
-    pairId: index + 1,
-    image,
-  }),
-);
+const CARD_DEFINITIONS: Array<CardDefinition> = CARD_IMAGES.map((image) => ({
+  image,
+}));
 
 // Fisher-Yates shuffle
 function shuffleCards<T extends object>(cards: T[]): T[] {
@@ -59,18 +56,20 @@ function shuffleCards<T extends object>(cards: T[]): T[] {
   return shuffledCards;
 }
 
-export function createGameCards(): Array<GameCard> {
+export function createGameCards(roomId: string): Array<GameCard> {
   const cards = CARD_DEFINITIONS.flatMap((def) => [
     {
       id: createId(),
-      pairId: def.pairId,
-      image: def.image,
+      roomId,
+      flippedBy: null,
+      imageUrl: def.image,
       isMatched: false,
     } satisfies GameCard,
     {
       id: createId(),
-      pairId: def.pairId,
-      image: def.image,
+      flippedBy: null,
+      roomId,
+      imageUrl: def.image,
       isMatched: false,
     } satisfies GameCard,
   ]);
