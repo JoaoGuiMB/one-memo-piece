@@ -40,6 +40,8 @@ export const cards = sqliteTable("cards", {
     .notNull()
     .references(() => rooms.id, { onDelete: "cascade" }),
   imageUrl: text("image_url").notNull(),
-  isMatched: integer("is_matched", { mode: "boolean" }).default(false),
+  isMatched: integer("is_matched", { mode: "boolean" })
+    .default(false)
+    .notNull(),
   flippedBy: text("flipped_by"), // Clerk's userId
 });

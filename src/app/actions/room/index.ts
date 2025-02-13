@@ -8,6 +8,7 @@ import {
 } from "~/server/db/rooms/queries";
 import { roomUsers } from "~/server/db/schema";
 import { redirect } from "next/navigation";
+import { insertGameCards } from "~/server/db/cards/queries";
 
 export const joinRoomAction = async (formData: FormData) => {
   const name = formData.get("roomName") as string;
@@ -37,4 +38,8 @@ export const checkIfUserHasRoom = async () => {
     redirect(`/rooms/${foundRoom[0]?.name}`);
   }
   return false;
+};
+
+export const startGame = async (roomName: string) => {
+  await insertGameCards(roomName);
 };
