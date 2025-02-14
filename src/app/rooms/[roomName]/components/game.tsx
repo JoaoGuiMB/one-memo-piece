@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { PlayerList } from "../components/player-list";
 
-import StartGameButton from "./start-game";
 import { useStorage } from "@liveblocks/react/suspense";
 
 // Mock data for players
@@ -11,18 +10,24 @@ import { useStorage } from "@liveblocks/react/suspense";
 export default function Game({ roomName }: { roomName: string }) {
   const cardsStorage = useStorage((root) => root.gameCards);
 
-  console.log(cardsStorage);
-
   return (
     <div className="flex min-h-screen overflow-y-auto bg-[#2E63A4]">
-      <StartGameButton roomName={roomName} />
       <div className="w-1/6 rounded-lg bg-[#58acf4] p-6 shadow-lg backdrop-blur-sm">
         <h2 className="mb-6 text-2xl font-bold text-gray-800">Players</h2>
         <PlayerList />
       </div>
 
       {/* Cards Grid */}
-      <div className="flex flex-1 items-center justify-center p-8">
+      <div className="flex flex-col items-center justify-center p-8">
+        <div>
+          <Image
+            src={"/logo.webp"}
+            width={150}
+            height={100}
+            alt="logo"
+            className="mb-4"
+          />
+        </div>
         <div className="grid grid-cols-8 gap-4">
           {[...cardsStorage].map((card, index) => (
             <div

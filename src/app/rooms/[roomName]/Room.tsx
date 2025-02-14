@@ -14,11 +14,11 @@ function RoomSkeleton() {
   return (
     <div className="relative flex min-h-screen w-screen flex-col items-center justify-center bg-[#2E63A4]">
       <Image
-        src={"/straw-hat-logo.png"}
-        width={300}
-        height={300}
-        alt="Loading..."
-        className="mb-40 w-[300px] animate-heartbeat"
+        src={"/logo.webp"}
+        width={150}
+        height={100}
+        alt="logo"
+        className="mb-4"
       />
     </div>
   );
