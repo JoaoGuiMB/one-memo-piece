@@ -13,6 +13,7 @@ export const env = createEnv({
       .default("development"),
       TURSO_DATABASE_URL: z.string().url(),
       TURSO_AUTH_TOKEN: z.string(),
+      LIVEBLOCKS_SERVER_KEY: z.string(),
   },
 
   /**
@@ -33,6 +34,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
     TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
+    LIVEBLOCKS_SERVER_KEY: process.env.LIVEBLOCKS_SERVER_KEY,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
