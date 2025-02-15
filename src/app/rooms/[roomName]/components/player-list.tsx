@@ -8,13 +8,13 @@ import { useMemo } from "react";
 export function PlayerList() {
   const self = useSelf((me) => ({
     id: me.id,
-    username: me.info?.username,
+    username: me.info.username,
     matchCardsCounter: me.info?.matchCardsCounter,
     connectionId: me.connectionId,
   }));
 
   const others = useOthersMapped((other) => ({
-    username: other.info?.username,
+    username: other.info.username,
     id: other.id,
     matchCardsCounter: other.info?.matchCardsCounter,
   }));

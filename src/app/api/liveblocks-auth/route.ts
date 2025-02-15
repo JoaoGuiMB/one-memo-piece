@@ -12,9 +12,6 @@ export async function POST(request: Request) {
   const user = await currentUser();
   if (!user) return new Response("Unauthorized", { status: 401 });
 
-  // Start an auth session inside your endpoint
-  console.log(user.username);
-
   const foundRoomUser = await findRoomByUserId(user.id);
   if (!foundRoomUser[0]?.id) {
     return new Response("Unauthorized", { status: 401 });
@@ -25,7 +22,6 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  console.log(foundRoomUser[0]?.matchedCounter);
   const session = liveblocks.prepareSession(
     user.id,
     {
