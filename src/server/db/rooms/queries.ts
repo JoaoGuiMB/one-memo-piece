@@ -1,11 +1,18 @@
 import { createId } from "@paralleldrive/cuid2";
 import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
-import { rooms } from "~/server/db/schema";
+import { rooms, roomUsers } from "~/server/db/schema";
 
 export type CreateRoom = {
   name: string;
   ownerId: string;
+};
+
+export const findRoomById = async (id: string) => {
+  return await db
+    .selectDistinct({ id: rooms.id, name: rooms.name, status: rooms.status })
+    .from(rooms)
+    .where(eq(rooms.id, id));
 };
 
 export const findRoomByName = async (name: string) => {
@@ -20,6 +27,17 @@ export const findRoomByOwner = async (userId: string) => {
     .selectDistinct({ id: rooms.id, name: rooms.name, status: rooms.status })
     .from(rooms)
     .where(eq(rooms.ownerId, userId));
+};
+
+export const findRoomByUserId = async (userId: string) => {
+  return await db
+    .selectDistinct({
+      id: roomUsers.roomId,
+      userId: roomUsers.userId,
+      matchedCounter: roomUsers.matchedCards,
+    })
+    .from(roomUsers)
+    .where(eq(roomUsers.userId, userId));
 };
 
 export const createRoom = async (input: CreateRoom) => {

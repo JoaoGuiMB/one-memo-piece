@@ -8,13 +8,15 @@ import { useMemo } from "react";
 export function PlayerList() {
   const self = useSelf((me) => ({
     id: me.id,
-    username: me.info?.username || "wkepowkqepok",
+    username: me.info?.username,
+    matchCardsCounter: me.info?.matchCardsCounter,
     connectionId: me.connectionId,
   }));
 
   const others = useOthersMapped((other) => ({
-    username: other.info?.username || "wkepowkqepwwwwok",
+    username: other.info?.username,
     id: other.id,
+    matchCardsCounter: other.info?.matchCardsCounter,
   }));
 
   const allPlayers = useMemo(
@@ -22,16 +24,16 @@ export function PlayerList() {
       {
         id: self?.id ?? "asdoaksdpsodk",
         username: self?.username ?? "asd",
-        score: 0,
+        score: self?.matchCardsCounter ?? 0,
         isCurrentTurn: true,
         isWinner: true,
         color: "red",
         isInGame: false,
       },
-      ...others.map(([_, { username, id }]) => ({
+      ...others.map(([_, { username, id, matchCardsCounter }]) => ({
         id,
         username: username,
-        score: 8,
+        score: matchCardsCounter ?? 0,
         isCurrentTurn: false,
         isWinner: true,
         color: "blue",

@@ -1,5 +1,6 @@
 "use server";
 import { currentUser } from "@clerk/nextjs/server";
+
 import { db } from "~/server/db";
 import {
   createRoom,
@@ -37,6 +38,7 @@ export const checkIfUserHasRoom = async () => {
   if (foundRoom[0]?.id) {
     redirect(`/rooms/${foundRoom[0]?.name}`);
   }
+
   return false;
 };
 

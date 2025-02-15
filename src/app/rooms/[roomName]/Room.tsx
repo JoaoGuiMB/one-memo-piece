@@ -34,11 +34,7 @@ export function Room({
   cards: GameCard[];
 }) {
   return (
-    <LiveblocksProvider
-      publicApiKey={
-        "pk_dev_VkwZvOGsFix97nZijfdJEbYpK0ScdDzoqUsXxwD40-_nwGUOzC7Xic9VS_2mFLbv"
-      }
-    >
+    <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
       <RoomProvider
         id={roomName}
         initialStorage={{ gameCards: new LiveList(cards) }}
