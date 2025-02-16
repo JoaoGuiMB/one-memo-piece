@@ -7,7 +7,7 @@ import { useStorage } from "@liveblocks/react/suspense";
 
 // Mock data for players
 
-export default function Game({ roomName }: { roomName: string }) {
+export default function Game() {
   const cardsStorage = useStorage((root) => root.gameCards);
 
   return (

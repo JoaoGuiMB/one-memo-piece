@@ -1,9 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
-import Game from "./components/game";
-import { Room } from "./Room";
 
 import { redirect } from "next/navigation";
-import { findGameCards } from "~/server/db/cards/queries";
+import { getRoomInfoUseCase } from "~/server/use-cases/getRoomInfoUseCase";
+
+import RoomPageWrapper from "./pageWrapper";
 
 export default async function RoomPage({
   params,
@@ -16,11 +16,7 @@ export default async function RoomPage({
     return redirect("/");
   }
 
-  const foundCards = (await findGameCards(roomName)) ?? [];
+  const roomInfo = await getRoomInfoUseCase(roomName);
 
-  return (
-    <Room roomName={roomName} cards={foundCards}>
-      <Game roomName={roomName} />
-    </Room>
-  );
+  return <RoomPageWrapper params={{ roomInfo }} />;
 }
