@@ -18,6 +18,7 @@ export const insertGameCards = async (roomName: string) => {
       flippedBy: card.flippedBy,
     });
   }
+  return generatedCards;
 };
 
 export const findGameCards = async (roomName: string) => {

@@ -4,59 +4,70 @@ import Image from "next/image";
 import { PlayerList } from "../components/player-list";
 
 import { useStorage } from "@liveblocks/react/suspense";
+import { FlipCard } from "./flip-card";
+import { useCardHandling } from "../hooks/card-handlint";
 
 // Mock data for players
 
 export default function Game() {
   const cardsStorage = useStorage((root) => root.gameCards);
+  const firstSelectedCardId = useStorage((root) => root.firstSelectedId);
+  const secondSelectedCardId = useStorage((root) => root.secondSelectedId);
+
+  const { handleCardClick } = useCardHandling();
+
+  //console.log(cardsStorage);
+  console.log(firstSelectedCardId);
+  console.log(secondSelectedCardId);
 
   return (
-    <div className="flex min-h-screen overflow-y-auto bg-[#2E63A4]">
-      <div className="w-1/6 rounded-lg bg-[#58acf4] p-6 shadow-lg backdrop-blur-sm">
-        <h2 className="mb-6 text-2xl font-bold text-gray-800">Players</h2>
-        <PlayerList />
-      </div>
+    <div className="min-h-screen bg-[#2E63A4] p-8">
+      <div className="container mx-auto">
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center justify-center">
+            <Image
+              src={"/logo.webp"}
+              width={150}
+              height={100}
+              alt="logo"
+              className="mb-4"
+            />
+          </div>
+          <div className="grid grid-cols-[300px_1fr] gap-10">
+            <PlayerList />
 
-      {/* Cards Grid */}
-      <div className="flex flex-col items-center justify-center p-8">
-        <div>
-          <Image
-            src={"/logo.webp"}
-            width={150}
-            height={100}
-            alt="logo"
-            className="mb-4"
-          />
-        </div>
-        <div className="grid grid-cols-8 gap-4">
-          {[...cardsStorage].map((card, index) => (
-            <div
-              key={card.id}
-              className={`h-40 w-40 transform cursor-pointer rounded-lg shadow-lg transition-transform duration-300 ${
-                card.isMatched ? "rotate-y-180" : ""
-              }`}
-              //onClick={() => handleCardClick(index)}
-            >
-              <div className="relative h-full w-full">
-                {/* Front of the Card */}
-                <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-orange-500">
-                  <span className="text-2xl text-white">?</span>
-                </div>
-
-                {/* Back of the Card */}
-                <div className="rotate-y-180 absolute inset-0 flex transform items-center justify-center rounded-lg bg-[#58acf4]">
-                  <div className="h-32 w-32">
-                    <Image
-                      src={card.imageUrl}
-                      alt={card.id}
-                      fill
-                      className="h-full w-full rounded-lg object-cover"
+            <div className="relative">
+              <div className="grid grid-cols-5 gap-2 lg:grid-cols-6 2xl:grid-cols-8">
+                {cardsStorage.map((card) => {
+                  return (
+                    <FlipCard
+                      key={card.id}
+                      onClick={() => handleCardClick(card.id)}
+                      front={
+                        <div>
+                          <Image
+                            src={card.imageUrl}
+                            alt={card.id}
+                            fill
+                            className="h-full w-full rounded-lg object-cover"
+                          />
+                        </div>
+                      }
+                      disabled={
+                        card.isMatched || card.id === firstSelectedCardId
+                      }
+                      back={<span className="text-2xl">☠️</span>}
+                      isFlipped={
+                        card.isMatched ||
+                        card.id === firstSelectedCardId ||
+                        card.id === secondSelectedCardId
+                      }
                     />
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>

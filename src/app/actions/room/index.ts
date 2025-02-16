@@ -43,5 +43,5 @@ export const checkIfUserHasRoom = async () => {
 };
 
 export const startGame = async (roomName: string) => {
-  await insertGameCards(roomName);
+  return await insertGameCards(roomName);
 };

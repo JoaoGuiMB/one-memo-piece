@@ -29,13 +29,13 @@ export function FlipCard({
         )}
       >
         <div className="backface-hidden absolute h-full w-full">
-          <Card className="flex h-full w-full items-center justify-center bg-primary">
+          <Card className="flex h-full w-full items-center justify-center bg-[#58acf4]">
             {front}
           </Card>
         </div>
 
         <div className="backface-hidden rotate-y-180 absolute h-full w-full">
-          <Card className="flex h-full w-full items-center justify-center bg-primary">
+          <Card className="flex h-full w-full items-center justify-center bg-[#58acf4]">
             {back}
           </Card>
         </div>

@@ -32,7 +32,12 @@ export function Room({ children }: { children: ReactNode }) {
     <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
       <RoomProvider
         id={roomData.name}
-        initialStorage={{ gameCards: new LiveList(roomData.cards) }}
+        initialStorage={{
+          gameCards: new LiveList(roomData.cards),
+          firstSelectedId: null,
+          secondSelectedId: null,
+          canSelect: true,
+        }}
       >
         <ClientSideSuspense fallback={<RoomSkeleton />}>
           {children}
