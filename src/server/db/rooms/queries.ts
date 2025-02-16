@@ -17,7 +17,12 @@ export const findRoomById = async (id: string) => {
 
 export const findRoomByName = async (name: string) => {
   return await db
-    .selectDistinct({ id: rooms.id, name: rooms.name, status: rooms.status })
+    .selectDistinct({
+      id: rooms.id,
+      name: rooms.name,
+      status: rooms.status,
+      ownerId: rooms.ownerId,
+    })
     .from(rooms)
     .where(eq(rooms.name, name));
 };
