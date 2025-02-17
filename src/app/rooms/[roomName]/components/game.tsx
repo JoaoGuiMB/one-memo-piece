@@ -5,7 +5,7 @@ import { PlayerList } from "../components/player-list";
 
 import { useStorage } from "@liveblocks/react/suspense";
 import { FlipCard } from "./flip-card";
-import { useCardHandling } from "../hooks/card-handlint";
+import { useCardHandling } from "../hooks/card-handling";
 
 // Mock data for players
 
