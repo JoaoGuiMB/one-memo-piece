@@ -3,7 +3,7 @@
 ## TODO
 
 - [] Improve Card Handling
-  - [] Select cards
-  - [] Match cards
+  - [x] Select cards
+  - [x] Match cards
   - [] Fix flip cards
   - [] Update state

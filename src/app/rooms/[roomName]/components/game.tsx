@@ -43,7 +43,11 @@ export default function Game() {
                     <FlipCard
                       key={card.id}
                       onClick={() => handleCardClick(card.id)}
-                      front={
+                      front={<>oi</>}
+                      disabled={
+                        card.isMatched || card.id === firstSelectedCardId
+                      }
+                      back={
                         <div>
                           <Image
                             src={card.imageUrl}
@@ -53,10 +57,6 @@ export default function Game() {
                           />
                         </div>
                       }
-                      disabled={
-                        card.isMatched || card.id === firstSelectedCardId
-                      }
-                      back={<span className="text-2xl">☠️</span>}
                       isFlipped={
                         card.isMatched ||
                         card.id === firstSelectedCardId ||

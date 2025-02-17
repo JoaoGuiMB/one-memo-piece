@@ -7,7 +7,7 @@ import {
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import Image from "next/image";
-import { LiveList } from "@liveblocks/client";
+import { LiveList, LiveObject } from "@liveblocks/client";
 import { useRoomDetail } from "./hooks/room-detail";
 
 function RoomSkeleton() {
@@ -33,7 +33,9 @@ export function Room({ children }: { children: ReactNode }) {
       <RoomProvider
         id={roomData.name}
         initialStorage={{
-          gameCards: new LiveList(roomData.cards),
+          gameCards: new LiveList(
+            roomData.cards.map((card) => new LiveObject(card)),
+          ),
           firstSelectedId: null,
           secondSelectedId: null,
           canSelect: true,

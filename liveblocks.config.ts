@@ -1,6 +1,6 @@
 // Define Liveblocks types for your application
 
-import { type LiveList } from "@liveblocks/client";
+import { type LiveObject, type LiveList } from "@liveblocks/client";
 import { type GameCard } from "~/app/rooms/[roomName]/lib/generateCards";
 
 // https://liveblocks.io/docs/api-reference/liveblocks-react#Typing-your-data
@@ -16,7 +16,7 @@ declare global {
     Storage: {
       // Example, a conflict-free list
       // animals: LiveList<string>;
-      gameCards: LiveList<GameCard>;
+      gameCards: LiveList<LiveObject<GameCard>>;
 
       firstSelectedId: string | null;
       secondSelectedId: string | null;
