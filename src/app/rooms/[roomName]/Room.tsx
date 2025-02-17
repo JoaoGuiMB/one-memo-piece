@@ -7,8 +7,9 @@ import {
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import Image from "next/image";
-import { LiveList, LiveObject } from "@liveblocks/client";
+import { LiveList, LiveMap, LiveObject } from "@liveblocks/client";
 import { useRoomDetail } from "./hooks/room-detail";
+import { type PlayerScore } from "liveblocks.config";
 
 function RoomSkeleton() {
   return (
@@ -28,6 +29,15 @@ export function Room({ children }: { children: ReactNode }) {
   const { roomData } = useRoomDetail();
   console.log(roomData);
 
+  const playerStates = new LiveMap<string, LiveObject<PlayerScore>>();
+  playerStates.set(
+    roomData.ownerId,
+    new LiveObject<PlayerScore>({
+      collectedPairIds: [],
+      pairsCount: 0,
+    }),
+  );
+
   return (
     <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
       <RoomProvider
@@ -36,6 +46,8 @@ export function Room({ children }: { children: ReactNode }) {
           gameCards: new LiveList(
             roomData.cards.map((card) => new LiveObject(card)),
           ),
+          playerStates,
+          currentTurnPlayerId: roomData.ownerId, // Change later, add currentPlayerId to database
           firstSelectedId: null,
           secondSelectedId: null,
           canSelect: true,

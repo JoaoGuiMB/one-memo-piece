@@ -1,7 +1,18 @@
 // Define Liveblocks types for your application
 
-import { type LiveObject, type LiveList } from "@liveblocks/client";
+import {
+  type LiveObject,
+  type LiveList,
+  type LiveMap,
+} from "@liveblocks/client";
 import { type GameCard } from "~/app/rooms/[roomName]/lib/generateCards";
+
+export type PlayerScore = {
+  collectedPairIds: Array<number>;
+  pairsCount: number;
+};
+
+export type PlayerStates = LiveMap<string, LiveObject<PlayerScore>>;
 
 // https://liveblocks.io/docs/api-reference/liveblocks-react#Typing-your-data
 declare global {
@@ -17,6 +28,8 @@ declare global {
       // Example, a conflict-free list
       // animals: LiveList<string>;
       gameCards: LiveList<LiveObject<GameCard>>;
+      playerStates: PlayerStates;
+      currentTurnPlayerId: string | null;
 
       firstSelectedId: string | null;
       secondSelectedId: string | null;

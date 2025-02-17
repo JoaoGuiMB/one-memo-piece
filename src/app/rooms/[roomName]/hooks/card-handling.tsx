@@ -37,6 +37,10 @@ export function useCardHandling() {
   }, []);
 
   const handleMatchedCards = useMutation(({ storage }) => {
+    const currentUserId = storage.get("currentTurnPlayerId");
+    // Should never happen in this case
+    if (!currentUserId) return;
+
     const cards = storage.get("gameCards");
     const firstSelectedId = storage.get("firstSelectedId");
     const secondSelectedId = storage.get("secondSelectedId");
@@ -55,7 +59,15 @@ export function useCardHandling() {
       cards.get(cardIndex)?.update({ isMatched: true });
     });
 
-    console.log(cards);
+    const playerStates = storage.get("playerStates");
+    const playerScore = playerStates.get(currentUserId);
+    console.log(playerScore);
+    if (!playerScore) return;
+    playerScore.update({
+      collectedPairIds: [0],
+      pairsCount: playerScore.get("pairsCount") + 1,
+    });
+
     setTimeout(() => {
       storage.set("firstSelectedId", null);
       storage.set("secondSelectedId", null);
