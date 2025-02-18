@@ -15,10 +15,10 @@ function Overlay({
 }) {
   return (
     <div className="absolute inset-0 flex justify-center bg-[#91bcf2]/70">
-      <div className="fixed top-[35%] flex flex-col items-center gap-4 text-center">
+      <div className="fixed top-[35%] flex flex-col items-center gap-4 text-center text-white">
         <div className="flex flex-col gap-1">
           <h2 className="text-2xl font-bold">{title}</h2>
-          <p className="text-muted-foreground">{description}</p>
+          <p className="">{description}</p>
         </div>
         {actions}
       </div>
