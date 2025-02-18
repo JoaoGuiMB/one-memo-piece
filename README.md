@@ -2,5 +2,13 @@
 
 ## TODO
 
-- [ ] Refactor the code
-  - [ ] Change the findGameCards to a different layer, and put all information of the room in this method (roomId, name, ownerId, etc) and provide to the context
+- [] Improve Card Handling
+
+  - [x] Select cards
+  - [x] Match cards
+  - [] Fix flip cards
+  - [x] Update state
+
+- [x] Fix sign in with clerk
+
+- [ ] Handle Start game

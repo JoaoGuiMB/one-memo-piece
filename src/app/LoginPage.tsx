@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { SignIn, useUser } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignIn,
+  SignInButton,
+  useUser,
+} from "@clerk/nextjs";
 import Image from "next/image";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
@@ -30,14 +36,13 @@ export function LoginPage() {
             {"Log in to join the Straw Hat Pirates's favorite game!"}
           </p>
         </div>
-        <SignIn
-          appearance={{
-            elements: {
-              formButtonPrimary: "bg-orange-500 hover:bg-orange-600",
-              footerActionLink: "text-orange-500 hover:text-orange-600",
-            },
-          }}
-        />
+
+        <SignedOut>
+          <Button className="w-full bg-orange-500 hover:bg-orange-600">
+            <SignInButton />
+          </Button>
+        </SignedOut>
+
         {isSignedIn && (
           <form action={joinRoomAction}>
             <div className="mb-4">
