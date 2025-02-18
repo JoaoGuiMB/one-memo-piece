@@ -10,6 +10,7 @@ import {
 import { roomUsers } from "~/server/db/schema";
 import { redirect } from "next/navigation";
 import { insertGameCards } from "~/server/db/cards/queries";
+import { and, eq } from "drizzle-orm";
 
 export const joinRoomAction = async (formData: FormData) => {
   const name = formData.get("roomName") as string;
@@ -26,7 +27,17 @@ export const joinRoomAction = async (formData: FormData) => {
     roomId = foundRoom[0]?.id;
   }
 
-  await db.insert(roomUsers).values({ roomId, userId: user.id });
+  // check if user is already in the room
+
+  const isUserAlreadyInTheRoom = await db
+    .selectDistinct()
+    .from(roomUsers)
+    .where(and(eq(roomUsers.roomId, roomId), eq(roomUsers.userId, user.id)));
+
+  if (isUserAlreadyInTheRoom.length === 0) {
+    await db.insert(roomUsers).values({ roomId, userId: user.id });
+  }
+
   redirect(`/rooms/${name}`);
 };
 
