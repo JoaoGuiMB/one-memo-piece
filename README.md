@@ -11,4 +11,5 @@
 
 - [x] Fix sign in with clerk
 
-- [ ] Handle Start game
+- [x] Handle Start game
+- [] Handle select cards and pass turns, also animating errors and matched cards
