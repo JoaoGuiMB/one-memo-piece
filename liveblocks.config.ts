@@ -14,6 +14,13 @@ export type PlayerScore = {
 
 export type PlayerStates = LiveMap<string, LiveObject<PlayerScore>>;
 
+export const ROOM_EVENTS = {
+  GAME_STARTING: "GAME_STARTING",
+  GAME_FINISHED: "GAME_FINISHED",
+  MATCH_SOUND: "MATCH_SOUND",
+  ERROR_SOUND: "ERROR_SOUND",
+} as const;
+
 // https://liveblocks.io/docs/api-reference/liveblocks-react#Typing-your-data
 declare global {
   interface Liveblocks {
@@ -25,6 +32,7 @@ declare global {
 
     // The Storage tree for the room, for useMutation, useStorage, etc.
     Storage: {
+      state: "LOBBY" | "IN_PROGRESS" | "FINISHED";
       // Example, a conflict-free list
       // animals: LiveList<string>;
       gameCards: LiveList<LiveObject<GameCard>>;
@@ -49,7 +57,11 @@ declare global {
     };
 
     // Custom events, for useBroadcastEvent, useEventListener
-    RoomEvent: {};
+    RoomEvent:
+      | { type: typeof ROOM_EVENTS.GAME_STARTING }
+      | { type: typeof ROOM_EVENTS.GAME_FINISHED }
+      | { type: typeof ROOM_EVENTS.MATCH_SOUND }
+      | { type: typeof ROOM_EVENTS.ERROR_SOUND };
     // Example has two events, using a union
     // | { type: "PLAY" }
     // | { type: "REACTION"; emoji: "🔥" };

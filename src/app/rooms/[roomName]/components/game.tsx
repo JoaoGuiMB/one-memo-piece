@@ -3,22 +3,21 @@
 import Image from "next/image";
 import { PlayerList } from "../components/player-list";
 
-import { useStorage } from "@liveblocks/react/suspense";
+import { useSelf, useStorage } from "@liveblocks/react/suspense";
 import { FlipCard } from "./flip-card";
 import { useCardHandling } from "../hooks/card-handling";
-
-// Mock data for players
+import { useRoomDetail } from "../hooks/room-detail";
+import { OwnerOverlay, PlayerOverlay } from "./overlay";
 
 export default function Game() {
   const cardsStorage = useStorage((root) => root.gameCards);
   const firstSelectedCardId = useStorage((root) => root.firstSelectedId);
   const secondSelectedCardId = useStorage((root) => root.secondSelectedId);
+  const { roomData } = useRoomDetail();
 
   const { handleCardClick } = useCardHandling();
-
-  //console.log(cardsStorage);
-  console.log(firstSelectedCardId);
-  console.log(secondSelectedCardId);
+  const myId = useSelf((self) => self.id);
+  const isOwner = roomData.ownerId === myId;
 
   return (
     <div className="min-h-screen bg-[#2E63A4] p-8">
@@ -67,6 +66,7 @@ export default function Game() {
                 })}
               </div>
             </div>
+            {isOwner ? <OwnerOverlay /> : <PlayerOverlay />}
           </div>
         </div>
       </div>

@@ -10,3 +10,5 @@
   - [x] Update state
 
 - [x] Fix sign in with clerk
+
+- [ ] Handle Start game

@@ -10,6 +10,7 @@ import Image from "next/image";
 import { LiveList, LiveMap, LiveObject } from "@liveblocks/client";
 import { useRoomDetail } from "./hooks/room-detail";
 import { type PlayerScore } from "liveblocks.config";
+import { GAME_STATES } from "./lib/contants";
 
 function RoomSkeleton() {
   return (
@@ -27,7 +28,6 @@ function RoomSkeleton() {
 
 export function Room({ children }: { children: ReactNode }) {
   const { roomData } = useRoomDetail();
-  console.log(roomData);
 
   const playerStates = new LiveMap<string, LiveObject<PlayerScore>>();
   playerStates.set(
@@ -43,6 +43,7 @@ export function Room({ children }: { children: ReactNode }) {
       <RoomProvider
         id={roomData.name}
         initialStorage={{
+          state: GAME_STATES.LOBBY,
           gameCards: new LiveList(
             roomData.cards.map((card) => new LiveObject(card)),
           ),
