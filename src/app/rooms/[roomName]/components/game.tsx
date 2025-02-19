@@ -14,11 +14,15 @@ import { useRoomDetail } from "../hooks/room-detail";
 import { OwnerOverlay, PlayerOverlay } from "./overlay";
 import { ROOM_EVENTS } from "liveblocks.config";
 import { Countdown } from "./countdown";
+import { cn } from "~/lib/utils";
 
 export default function Game() {
   const cardsStorage = useStorage((root) => root.gameCards);
   const firstSelectedCardId = useStorage((root) => root.firstSelectedId);
   const secondSelectedCardId = useStorage((root) => root.secondSelectedId);
+  const animatingMatchIds = useStorage((root) => root.animatingMatchIds);
+  const animatingErrorIds = useStorage((root) => root.animatingErrorIds);
+
   const { roomData, showCountdown, setShowCountdown } = useRoomDetail();
 
   const { handleCardClick } = useCardHandling();
@@ -59,10 +63,18 @@ export default function Game() {
                       <FlipCard
                         key={card.id}
                         onClick={() => handleCardClick(card.id)}
-                        front={<>oi</>}
+                        front={<div className="text-3xl">☠️</div>}
                         disabled={
                           card.isMatched || card.id === firstSelectedCardId
                         }
+                        className={cn({
+                          "animate-match-card": animatingMatchIds.includes(
+                            card.id,
+                          ),
+                          "animate-error-card": animatingErrorIds.includes(
+                            card.id,
+                          ),
+                        })}
                         back={
                           <div>
                             <Image

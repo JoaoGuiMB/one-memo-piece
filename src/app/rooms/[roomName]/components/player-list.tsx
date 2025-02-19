@@ -24,7 +24,6 @@ export function PlayerList() {
   }));
 
   const playerStates = useStorage((root) => root.playerStates);
-  const user = playerStates?.get(self.id);
 
   const allPlayers = useMemo(
     () => [

@@ -1,4 +1,11 @@
 import { useMutation } from "@liveblocks/react";
+import { getNextPlayerId } from "../lib/utils";
+
+const ANIMATION_DURATION_RESET_TIMEOUT = 1500;
+
+// We need to let the card animation happen before we do the sound + animation
+// Otherwise it's not in sync
+const ANIMATION_START_DELAY = 450;
 
 export function useCardHandling() {
   const handleErrorCards = useMutation(({ storage }) => {
@@ -11,6 +18,10 @@ export function useCardHandling() {
     const errorIds = [firstSelectedCardId, secondSelectedCardId];
 
     setTimeout(() => {
+      storage.set("animatingErrorIds", errorIds);
+    }, ANIMATION_START_DELAY);
+
+    setTimeout(() => {
       // Turn cards back
       errorIds.forEach((id) => {
         const cardIndex = cards.findIndex((card) => card.get("id") === id);
@@ -18,22 +29,23 @@ export function useCardHandling() {
         cards.get(cardIndex)?.update({ isMatched: false });
       });
 
+      storage.set("animatingErrorIds", []);
       storage.set("firstSelectedId", null);
       storage.set("secondSelectedId", null);
 
       // Reset selection
       storage.set("canSelect", true);
 
-      // const currentPlayerId = storage.get("currentTurnPlayerId");
-      // if (!currentPlayerId) return;
+      const currentPlayerId = storage.get("currentTurnPlayerId");
+      if (!currentPlayerId) return;
 
-      // Move to next player
-      // const nextPlayerId = getNextPlayerId({
-      //   currentId: currentPlayerId,
-      //   playerStates: storage.get("playerStates"),
-      // });
-      // storage.set("currentTurnPlayerId", nextPlayerId);
-    }, 500);
+      //Move to next player
+      const nextPlayerId = getNextPlayerId({
+        currentId: currentPlayerId,
+        playerStates: storage.get("playerStates"),
+      });
+      storage.set("currentTurnPlayerId", nextPlayerId ?? null);
+    }, ANIMATION_DURATION_RESET_TIMEOUT);
   }, []);
 
   const handleMatchedCards = useMutation(({ storage }) => {
@@ -50,7 +62,8 @@ export function useCardHandling() {
       (card) => card.get("id") === secondSelectedId,
     );
 
-    if (!firstCard || !secondCard) return;
+    if (!firstCard || !secondCard || !firstSelectedId || !secondSelectedId)
+      return;
     const matchedCardsIds = [firstSelectedId, secondSelectedId];
 
     matchedCardsIds.forEach((cardId) => {
@@ -61,7 +74,7 @@ export function useCardHandling() {
 
     const playerStates = storage.get("playerStates");
     const playerScore = playerStates.get(currentUserId);
-    console.log(playerScore);
+
     if (!playerScore) return;
     playerScore.update({
       collectedPairIds: [0],
@@ -69,14 +82,19 @@ export function useCardHandling() {
     });
 
     setTimeout(() => {
+      storage.set("animatingMatchIds", matchedCardsIds);
+    }, ANIMATION_START_DELAY);
+
+    setTimeout(() => {
+      storage.set("animatingMatchIds", []);
       storage.set("firstSelectedId", null);
       storage.set("secondSelectedId", null);
       storage.set("canSelect", true);
-    }, 1000);
+    }, ANIMATION_DURATION_RESET_TIMEOUT);
   }, []);
 
   const handleMatchedOrErrorCards = useMutation(
-    ({ storage, self }) => {
+    ({ storage }) => {
       const cards = storage.get("gameCards");
       const firstSelectedId = storage.get("firstSelectedId");
       const secondSelectedId = storage.get("secondSelectedId");
@@ -89,11 +107,9 @@ export function useCardHandling() {
       );
 
       if (firstCard?.get("imageUrl") === secondCard?.get("imageUrl")) {
-        console.log("matched");
         handleMatchedCards();
       } else {
         handleErrorCards();
-        // handle error cards
       }
     },
     [handleMatchedCards, handleErrorCards],
@@ -106,6 +122,8 @@ export function useCardHandling() {
     if (!storage.get("canSelect")) {
       return;
     }
+
+    if (storage.get("currentTurnPlayerId") !== self.id) return;
 
     if (storage.get("firstSelectedId") && storage.get("secondSelectedId")) {
       return;

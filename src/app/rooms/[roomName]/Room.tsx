@@ -43,6 +43,8 @@ export function Room({ children }: { children: ReactNode }) {
       <RoomProvider
         id={roomData.name}
         initialStorage={{
+          animatingErrorIds: [],
+          animatingMatchIds: [],
           state: GAME_STATES.LOBBY,
           gameCards: new LiveList(
             roomData.cards.map((card) => new LiveObject(card)),
