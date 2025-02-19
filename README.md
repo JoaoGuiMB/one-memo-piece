@@ -14,3 +14,5 @@
 - [x] Handle Start game
 - [x] Handle select cards and pass turns, also animating errors and matched cards
 - [x] Fix player list
+- [ ] Add cursor
+- [ ] Handle win and finish game
