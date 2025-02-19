@@ -45,6 +45,7 @@ declare global {
 
       firstSelectedId: string | null;
       secondSelectedId: string | null;
+      winningPlayerId: string | null;
     };
 
     // Custom user info set when authenticating with a secret key

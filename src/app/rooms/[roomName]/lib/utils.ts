@@ -1,3 +1,4 @@
+import { type LiveObject } from "@liveblocks/client";
 import { type PlayerStates } from "liveblocks.config";
 
 export function getNextPlayerId({
@@ -14,4 +15,29 @@ export function getNextPlayerId({
   const nextIndex = (currentIndex + 1) % playerIds.length;
 
   return playerIds[nextIndex];
+}
+
+export function determineWinner({
+  storage,
+}: {
+  storage: LiveObject<{ playerStates: PlayerStates }>;
+}) {
+  const playerStates = storage.get("playerStates");
+  let maxPairs = 0;
+  let winners: Array<string> = [];
+
+  playerStates.forEach((state, playerId) => {
+    const pairs = state.get("pairsCount");
+    if (pairs > maxPairs) {
+      maxPairs = pairs;
+      winners = [playerId];
+    } else if (pairs === maxPairs) {
+      // Handle same score
+      winners.push(playerId);
+    }
+  });
+
+  // If a tie, pick random winner
+  // If length is 1, this will just be the winner
+  return winners[Math.floor(Math.random() * winners.length)];
 }

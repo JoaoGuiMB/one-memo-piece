@@ -43,6 +43,7 @@ export function Room({ children }: { children: ReactNode }) {
       <RoomProvider
         id={roomData.name}
         initialStorage={{
+          winningPlayerId: null,
           animatingErrorIds: [],
           animatingMatchIds: [],
           state: GAME_STATES.LOBBY,
