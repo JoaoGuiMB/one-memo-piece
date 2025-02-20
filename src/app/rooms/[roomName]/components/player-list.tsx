@@ -59,7 +59,6 @@ export function PlayerList() {
     ],
   );
 
-  console.log(allPlayers);
   return (
     <ScrollArea className="h-[600px] max-h-full rounded-lg border p-4">
       <div className="flex flex-col gap-4">

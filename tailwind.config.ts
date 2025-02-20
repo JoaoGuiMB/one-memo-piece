@@ -3,6 +3,14 @@ import tailwindcssAnimate from "tailwindcss-animate";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 
+export const CSS_VARS = {
+  cursor: {
+    x: "--cursor-x",
+    y: "--cursor-y",
+    fill: "--cursor-fill",
+  },
+} as const;
+
 export default {
   darkMode: ["class"],
   content: ["./src/**/*.tsx"],
@@ -65,6 +73,10 @@ export default {
           },
         },
       },
+      dropShadow: {
+        cursor: "0 0 1px var(--cursor-fill)",
+      },
+
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
@@ -74,6 +86,11 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        cursor: {
+          stroke: "hsl(var(--cursor))", // Fixed dark blue
+          fill: `var(${CSS_VARS.cursor.fill})`, // Dynamic user color
+          badge: `var(${CSS_VARS.cursor.fill})`,
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

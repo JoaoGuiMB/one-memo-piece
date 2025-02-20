@@ -42,6 +42,10 @@ export function Room({ children }: { children: ReactNode }) {
     <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
       <RoomProvider
         id={roomData.name}
+        initialPresence={{
+          cursor: null,
+          username: "",
+        }}
         initialStorage={{
           winningPlayerId: null,
           animatingErrorIds: [],
