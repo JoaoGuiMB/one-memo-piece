@@ -24,7 +24,9 @@ export function PlayerList() {
   }));
 
   const playerStates = useStorage((root) => root.playerStates);
-  const user = playerStates?.get(self.id);
+
+  const currentTurnId = useStorage((root) => root.currentTurnPlayerId);
+  const winningPlayerId = useStorage((root) => root.winningPlayerId);
 
   const allPlayers = useMemo(
     () => [
@@ -32,22 +34,29 @@ export function PlayerList() {
         id: self?.id,
         username: self?.username ?? "asd",
         score: playerStates?.get(self.id)?.pairsCount ?? 0,
-        isCurrentTurn: true,
-        isWinner: true,
+        isCurrentTurn: Boolean(currentTurnId && currentTurnId === self.id),
+        isWinner: Boolean(winningPlayerId && winningPlayerId === self.id),
         color: "red",
-        isInGame: false,
+        isInGame: true,
       },
       ...others.map(([_, { username, id }]) => ({
         id,
         username: username,
         score: playerStates?.get(id)?.pairsCount ?? 0,
-        isCurrentTurn: false,
-        isWinner: true,
+        isCurrentTurn: Boolean(currentTurnId && currentTurnId === id),
+        isWinner: Boolean(winningPlayerId && winningPlayerId === id),
         color: "blue",
         isInGame: true,
       })),
     ],
-    [self?.id, self?.username, playerStates, others],
+    [
+      self.id,
+      self?.username,
+      playerStates,
+      currentTurnId,
+      winningPlayerId,
+      others,
+    ],
   );
 
   return (

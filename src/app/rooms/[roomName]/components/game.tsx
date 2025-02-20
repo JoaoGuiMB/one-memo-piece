@@ -7,6 +7,7 @@ import {
   useEventListener,
   useSelf,
   useStorage,
+  useUpdateMyPresence,
 } from "@liveblocks/react/suspense";
 import { FlipCard } from "./flip-card";
 import { useCardHandling } from "../hooks/card-handling";
@@ -14,12 +15,18 @@ import { useRoomDetail } from "../hooks/room-detail";
 import { OwnerOverlay, PlayerOverlay } from "./overlay";
 import { ROOM_EVENTS } from "liveblocks.config";
 import { Countdown } from "./countdown";
+import { cn } from "~/lib/utils";
+import { CursorPresence } from "./cursor";
 
 export default function Game() {
   const cardsStorage = useStorage((root) => root.gameCards);
   const firstSelectedCardId = useStorage((root) => root.firstSelectedId);
   const secondSelectedCardId = useStorage((root) => root.secondSelectedId);
+  const animatingMatchIds = useStorage((root) => root.animatingMatchIds);
+  const animatingErrorIds = useStorage((root) => root.animatingErrorIds);
+
   const { roomData, showCountdown, setShowCountdown } = useRoomDetail();
+  const updateMyPresence = useUpdateMyPresence();
 
   const { handleCardClick } = useCardHandling();
   const myId = useSelf((self) => self.id);
@@ -37,7 +44,23 @@ export default function Game() {
         <Countdown onFinished={() => setShowCountdown(false)} />
       )}
 
-      <div className="min-h-screen bg-[#2E63A4] p-8">
+      <div
+        className="min-h-screen bg-[#2E63A4] p-8"
+        onPointerMove={(event) => {
+          updateMyPresence({
+            cursor: {
+              x: Math.round(event.clientX),
+              y: Math.round(event.clientY),
+            },
+          });
+        }}
+        onPointerLeave={() =>
+          updateMyPresence({
+            cursor: null,
+          })
+        }
+      >
+        <CursorPresence />
         <div className="container mx-auto">
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-center">
@@ -59,10 +82,18 @@ export default function Game() {
                       <FlipCard
                         key={card.id}
                         onClick={() => handleCardClick(card.id)}
-                        front={<>oi</>}
+                        front={<div className="text-3xl">☠️</div>}
                         disabled={
                           card.isMatched || card.id === firstSelectedCardId
                         }
+                        className={cn({
+                          "animate-match-card": animatingMatchIds.includes(
+                            card.id,
+                          ),
+                          "animate-error-card": animatingErrorIds.includes(
+                            card.id,
+                          ),
+                        })}
                         back={
                           <div>
                             <Image

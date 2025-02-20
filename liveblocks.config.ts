@@ -26,8 +26,8 @@ declare global {
   interface Liveblocks {
     // Each user's Presence, for useMyPresence, useOthers, etc.
     Presence: {
-      // Example, real-time cursor coordinates
-      // cursor: { x: number; y: number };
+      cursor: { x: number; y: number } | null;
+      username: string;
     };
 
     // The Storage tree for the room, for useMutation, useStorage, etc.
@@ -39,9 +39,13 @@ declare global {
       playerStates: PlayerStates;
       currentTurnPlayerId: string | null;
 
+      animatingMatchIds: Array<string>;
+      animatingErrorIds: Array<string>;
+      canSelect: boolean;
+
       firstSelectedId: string | null;
       secondSelectedId: string | null;
-      canSelect: boolean;
+      winningPlayerId: string | null;
     };
 
     // Custom user info set when authenticating with a secret key
