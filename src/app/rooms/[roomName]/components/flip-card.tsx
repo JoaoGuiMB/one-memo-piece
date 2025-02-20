@@ -1,3 +1,5 @@
+import { useStorage } from "@liveblocks/react";
+import { useSelf } from "@liveblocks/react/suspense";
 import type { ComponentProps } from "react";
 import { Card } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
@@ -15,26 +17,33 @@ export function FlipCard({
   isFlipped,
   ...props
 }: FlipCardProps) {
+  const currentPlayerId = useStorage((root) => root.currentTurnPlayerId);
+  const me = useSelf((self) => self.id);
+
   return (
     <button
-      className={cn("perspective-1000 aspect-square rounded-xl", className)}
+      className={cn(
+        "aspect-square rounded-xl perspective-1000",
+        className,
+        currentPlayerId === me ? "cursor-pointer" : "cursor-not-allowed",
+      )}
       {...props}
     >
       <div
         className={cn(
-          "transform-style-preserve-3d relative h-full w-full transition-transform duration-500 ease-in-out",
+          "relative h-full w-full transition-transform duration-500 ease-in-out transform-style-preserve-3d",
           {
             "rotate-y-180": isFlipped,
           },
         )}
       >
-        <div className="backface-hidden absolute h-full w-full">
+        <div className="absolute h-full w-full backface-hidden">
           <Card className="flex h-full w-full items-center justify-center bg-[#58acf4]">
             {front}
           </Card>
         </div>
 
-        <div className="backface-hidden rotate-y-180 absolute h-full w-full">
+        <div className="absolute h-full w-full backface-hidden rotate-y-180">
           <Card className="flex h-full w-full items-center justify-center bg-[#58acf4]">
             {back}
           </Card>
