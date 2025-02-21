@@ -23,10 +23,15 @@ export function useStartGame() {
 
       storage.set("state", GAME_STATES.IN_PROGRESS);
 
+      storage.set("totalPairs", gameCards.length / 2);
+      storage.set("totalPairsMatched", 0);
       storage.set("currentTurnPlayerId", allPlayers[randomPlayerIndex] ?? null);
       storage.set("firstSelectedId", null);
       storage.set("secondSelectedId", null);
+      storage.set("animatingMatchIds", []);
+      storage.set("animatingErrorIds", []);
       storage.set("canSelect", true);
+      storage.set("winningPlayerId", null);
 
       const playerStates = new LiveMap<string, LiveObject<PlayerScore>>();
       allPlayers.forEach((playerId) => {

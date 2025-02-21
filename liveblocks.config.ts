@@ -39,6 +39,10 @@ declare global {
       playerStates: PlayerStates;
       currentTurnPlayerId: string | null;
 
+      // Game configuration
+      totalPairs: number;
+      totalPairsMatched: number;
+
       animatingMatchIds: Array<string>;
       animatingErrorIds: Array<string>;
       canSelect: boolean;

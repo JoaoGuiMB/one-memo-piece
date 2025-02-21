@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [] Improve Card Handling
+- [x] Improve Card Handling
 
   - [x] Select cards
   - [x] Match cards
@@ -14,5 +14,9 @@
 - [x] Handle Start game
 - [x] Handle select cards and pass turns, also animating errors and matched cards
 - [x] Fix player list
-- [ ] Add cursor
-- [ ] Handle win and finish game
+- [x] Add cursor
+- [x] Handle win and finish game
+
+- [ ] Add sound
+- [ ] Fix characters position at the card
+- [ ] Add more cards
