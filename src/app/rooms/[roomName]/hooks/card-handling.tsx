@@ -1,5 +1,5 @@
 import { useMutation } from "@liveblocks/react";
-import { getNextPlayerId } from "../lib/utils";
+import { determineWinner, getNextPlayerId } from "../lib/utils";
 
 const ANIMATION_DURATION_RESET_TIMEOUT = 1500;
 
@@ -54,6 +54,7 @@ export function useCardHandling() {
     if (!currentUserId) return;
 
     const cards = storage.get("gameCards");
+    const totalPairsMatched = storage.get("totalPairsMatched");
     const firstSelectedId = storage.get("firstSelectedId");
     const secondSelectedId = storage.get("secondSelectedId");
 
@@ -84,6 +85,16 @@ export function useCardHandling() {
     setTimeout(() => {
       storage.set("animatingMatchIds", matchedCardsIds);
     }, ANIMATION_START_DELAY);
+
+    const newTotalMatched = totalPairsMatched + 1;
+    storage.set("totalPairsMatched", newTotalMatched);
+    const isGameFinished = newTotalMatched === storage.get("totalPairs");
+    if (isGameFinished) {
+      setTimeout(() => {
+        storage.set("state", "FINISHED");
+        storage.set("winningPlayerId", determineWinner({ storage }) ?? null);
+      }, ANIMATION_DURATION_RESET_TIMEOUT);
+    }
 
     setTimeout(() => {
       storage.set("animatingMatchIds", []);

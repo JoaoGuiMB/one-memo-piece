@@ -51,6 +51,8 @@ export function Room({ children }: { children: ReactNode }) {
           animatingErrorIds: [],
           animatingMatchIds: [],
           state: GAME_STATES.LOBBY,
+          totalPairsMatched: 0,
+          totalPairs: roomData.cards.length / 2,
           gameCards: new LiveList(
             roomData.cards.map((card) => new LiveObject(card)),
           ),

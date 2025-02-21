@@ -3,6 +3,7 @@ import { Button } from "~/components/ui/button";
 
 import { useStartGame } from "../hooks/start-game";
 import { GAME_STATES, MINIMUM_PLAYERS_TO_START } from "../lib/contants";
+import { useGetWinner } from "../hooks/get-winner";
 
 function Overlay({
   title,
@@ -15,7 +16,7 @@ function Overlay({
 }) {
   return (
     <div className="absolute inset-0 flex justify-center bg-[#91bcf2]/70">
-      <div className="fixed top-[35%] flex flex-col items-center gap-4 text-center text-white">
+      <div className="fixed top-[35%] flex flex-col items-center gap-4 text-center text-black">
         <div className="flex flex-col gap-1">
           <h2 className="text-2xl font-bold">{title}</h2>
           <p className="">{description}</p>
@@ -28,6 +29,7 @@ function Overlay({
 
 export function PlayerOverlay() {
   const gameState = useStorage((root) => root.state);
+  const winner = useGetWinner();
 
   if (gameState === GAME_STATES.LOBBY) {
     return (
@@ -37,10 +39,12 @@ export function PlayerOverlay() {
       />
     );
   }
-
-  if (gameState === GAME_STATES.FINISHED) {
+  if (gameState === GAME_STATES.FINISHED && winner) {
     return (
-      <Overlay title="Game Over!" description={`test won with oi pairs!`} />
+      <Overlay
+        title="Game Over!"
+        description={`${winner.username} won with ${winner.score} pairs!`}
+      />
     );
   }
 
@@ -56,6 +60,8 @@ export function OwnerOverlay() {
 
   const startGame = useStartGame();
 
+  const winner = useGetWinner();
+
   if (gameState === GAME_STATES.LOBBY) {
     return (
       <Overlay
@@ -70,11 +76,11 @@ export function OwnerOverlay() {
     );
   }
 
-  if (gameState === GAME_STATES.FINISHED) {
+  if (gameState === GAME_STATES.FINISHED && winner) {
     return (
       <Overlay
         title="Game Over!"
-        description={` won with  pairs!`}
+        description={`${winner.username} won with ${winner.score} pairs!`}
         actions={
           <Button disabled={isStartButtonDisabled} onClick={startGame}>
             Start New Game
