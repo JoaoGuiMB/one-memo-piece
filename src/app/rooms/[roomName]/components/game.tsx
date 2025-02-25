@@ -17,6 +17,7 @@ import { ROOM_EVENTS } from "liveblocks.config";
 import { Countdown } from "./countdown";
 import { cn } from "~/lib/utils";
 import { CursorPresence } from "./cursor";
+import { OwnerHeader, PlayerHeader } from "./room-header";
 
 export default function Game() {
   const cardsStorage = useStorage((root) => root.gameCards);
@@ -72,6 +73,7 @@ export default function Game() {
                 className="mb-4"
               />
             </div>
+            {isOwner ? <OwnerHeader /> : <PlayerHeader />}
             <div className="grid grid-cols-[300px_1fr] gap-10">
               <PlayerList />
 
