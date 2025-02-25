@@ -18,5 +18,6 @@
 - [x] Handle win and finish game
 
 - [ ] Add sound
-- [ ] Fix characters position at the card
-- [ ] Add more cards
+- [ ] Test more
+- [x] Fix characters position at the card
+- [x] Add more cards
