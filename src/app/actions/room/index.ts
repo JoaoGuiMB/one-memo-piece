@@ -33,8 +33,9 @@ export const joinRoomAction = async (formData: FormData) => {
     .selectDistinct()
     .from(roomUsers)
     .where(and(eq(roomUsers.roomId, roomId), eq(roomUsers.userId, user.id)));
-
+  console.log({ isUserAlreadyInTheRoom });
   if (isUserAlreadyInTheRoom.length === 0) {
+    await db.delete(roomUsers).where(eq(roomUsers.userId, user.id));
     await db.insert(roomUsers).values({ roomId, userId: user.id });
   }
 
