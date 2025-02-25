@@ -84,7 +84,17 @@ export default function Game() {
                       <FlipCard
                         key={card.id}
                         onClick={() => handleCardClick(card.id)}
-                        front={<div className="text-3xl">☠️</div>}
+                        front={
+                          <div className="flex items-center justify-center">
+                            <Image
+                              src={card.imageUrl}
+                              alt={card.id}
+                              width={85}
+                              height={85}
+                              className="h-full w-full rounded-lg object-cover"
+                            />
+                          </div>
+                        }
                         disabled={
                           card.isMatched || card.id === firstSelectedCardId
                         }
@@ -96,16 +106,7 @@ export default function Game() {
                             card.id,
                           ),
                         })}
-                        back={
-                          <div>
-                            <Image
-                              src={card.imageUrl}
-                              alt={card.id}
-                              fill
-                              className="h-full w-full rounded-lg object-cover"
-                            />
-                          </div>
-                        }
+                        back={<div className="text-3xl">☠️</div>}
                         isFlipped={
                           card.isMatched ||
                           card.id === firstSelectedCardId ||
