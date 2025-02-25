@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   if (!user) return new Response("Unauthorized", { status: 401 });
 
   const foundRoomUser = await findRoomByUserId(user.id);
-  console.log(foundRoomUser);
+
   if (!foundRoomUser[0]?.id) {
     return new Response("Unauthorized", { status: 401 });
   }
