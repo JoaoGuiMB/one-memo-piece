@@ -11,9 +11,6 @@ export function useStartGame() {
 
   const startGame = useMutation(
     async ({ storage, self, others }) => {
-      if (storage.get("state") === GAME_STATES.IN_PROGRESS) {
-        return;
-      }
       // Generate fresh shuffled cards
       const gameCards = await actionStartGame(roomData.name);
       if (!gameCards) return;
